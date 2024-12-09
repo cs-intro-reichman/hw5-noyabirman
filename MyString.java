@@ -116,23 +116,24 @@ public class MyString {
     * @return a string consisting of str1 minus all the characters of str2
     */
    public static String remove(String str1, String str2) {
-      String updated="";
+      String result="";
+      boolean[] removed = new boolean[str2.length()];
       for (int i=0 ; i < str1.length() ; i++){
        char ch= str1.charAt(i);
-
        boolean found=false;
 
        for (int j=0; j < str2.length(); j++){
            if (ch== str2.charAt(j)){
                found= true;
+               removed[j]=true;
                break;
            }
        }
        if (!found) {
-           updated+=ch;
+           result+=ch;
        } 
       }
-       return updated;
+       return result;
    }
 
    /**
