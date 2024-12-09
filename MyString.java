@@ -1,97 +1,153 @@
-// Source code is decompiled from a .class file using FernFlower decompiler.
+/**
+ * A library of string functions.
+ */
 public class MyString {
-    public MyString() {
-    }
- 
-    public static void main(String[] var0) {
-       String var1 = "hello";
-       System.out.println(countChar(var1, 'h'));
-       System.out.println(countChar(var1, 'l'));
-       System.out.println(countChar(var1, 'z'));
-       System.out.println(spacedString(var1));
-    }
- 
-    public static int countChar(String var0, char var1) {
-       int var2 = 0;
- 
-       for(int var3 = 0; var3 < var0.length(); ++var3) {
-          if (var0.charAt(var3) == var1) {
-             ++var2;
-          }
+   public static void main(String args[]) {
+       String hello = "hello";
+       System.out.println(countChar(hello, 'h'));
+       System.out.println(countChar(hello, 'l'));
+       System.out.println(countChar(hello, 'z'));
+       System.out.println(spacedString(hello));
+       //// Put your other tests here.
+   }
+
+   /**
+    * Returns the number of times the given character appears in the given string.
+    * Example: countChar("Center",'e') returns 2 and countChar("Center",'c') returns 0. 
+    * 
+    * @param str - a string
+    * @param c - a character
+    * @return the number of times c appears in str
+    */
+   public static int countChar(String str, char ch) {
+       int count=0;
+       for (int i=0 ; i< str.length(); i++){
+           if (str.charAt(i)==ch){
+               count++;
+           }
        }
- 
-       return var2;
-    }
- 
-    public static boolean subsetOf(String var0, String var1) {
-       if (var0.length() > var1.length()) {
-          return false;
-       } else {
-          for(int var2 = 0; var2 < var0.length() - var1.length(); ++var2) {
-             char var3 = var0.charAt(var2);
-             int var4 = countChar(var0, var3);
-             int var5 = countChar(var1, var3);
-             if (var4 > var5) {
-                return false;
-             }
-          }
- 
-          return true;
-       }
-    }
- 
-    public static String spacedString(String var0) {
-       if (var0.length() == 0) {
-          return "";
-       } else {
-          String var1 = "";
- 
-          for(int var2 = 0; var2 < var0.length() - 1; ++var2) {
-             var1 = var1 + var0.charAt(var2) + " ";
-          }
- 
-          var1 = var1 + var0.charAt(var0.length() - 1);
-          return var1;
-       }
-    }
- 
-    public static String randomStringOfLetters(int var0) {
-       String var1 = "";
- 
-       for(int var2 = 0; var2 < var0; ++var2) {
-          char var3 = (char)(97 + (int)(Math.random() * 26.0));
-          var1 = var1 + var3;
-       }
- 
-       return var1;
-    }
- 
-    public static String remove(String var0, String var1) {
-       String var2 = "";
- 
-       for(int var3 = 0; var3 < var0.length(); ++var3) {
-          char var4 = var0.charAt(var3);
-          boolean var5 = false;
- 
-          for(int var6 = 0; var6 < var1.length(); ++var6) {
-             if (var4 == var1.charAt(var6)) {
-                var5 = true;
+       return count;
+   }
+
+   /** Returns true if str1 is a subset string str2, false otherwise
+    *  Examples:
+    *  subsetOf("sap","space") returns true
+    *  subsetOf("spa","space") returns false
+    *  subsetOf("pass","space") returns false
+    *  subsetOf("c","space") returns true
+    *
+    * @param str1 - a string
+    * @param str2 - a string
+    * @return true is str1 is a subset of str2, false otherwise
+    */
+   public static boolean subsetOf(String str1, String str2) {
+        if (str1.length()>str2.length()){
+           return false;
+        }
+       for (int i=0; i<str1.length();i++){
+           char ch=str1.charAt(i);
+           boolean checked= false;
+           for (int j=0 ; j<i; j++){
+            if (str1.charAt(j)==ch){
+                checked=true;
                 break;
-             }
-          }
- 
-          if (!var5) {
-             var2 = var2 + var4;
-          }
+            }
+           }
+           if (checked) {
+            continue;
+           }
+           int countChar1 =countChar(str1, ch);
+           int countChar2=countChar(str2, ch);
+
+           if (countChar1 > countChar2){
+               return false;
+           }
        }
+       return true;
+   }
+   
+   /** Returns a string which is the same as the given string, with a space
+    * character inserted after each character in the given string, except
+    * for the last character. 
+    * Example: spacedString("silent") returns "s i l e n t"
+    * 
+    * @param str - a string
+    * @return a string consisting of the characters of str, separated by spaces.
+    */
+   public static String spacedString(String str) {
+       if (str.length()==0){
+           return "";
+       }
+       String spaced="";
+       for (int i=0 ;i<str.length()-1;i++){
+           spaced=spaced+str.charAt(i)+" ";
+
+       }
+       spaced= spaced+str.charAt(str.length()-1);
+       return spaced;
+   }
  
-       return var2;
-    }
- 
-    public static String insertRandomly(char var0, String var1) {
-       int var2 = (int)(Math.random() * (double)(var1.length() + 1));
-       String var3 = var1.substring(0, var2) + var0 + var1.substring(var2);
-       return var3;
-    }
- }
- 
+   /**
+    * Returns a string of n lowercase letters, selected randomly from 
+    * the English alphabet 'a', 'b', 'c', ..., 'z'. Note that the same
+    * letter can be selected more than once.
+    * 
+    * Example: randomStringOfLetters(3) can return "zoo"
+    * 
+    * @param n - the number of letter to select
+    * @return a randomly generated string, consisting of 'n' lowercase letters
+    */
+   public static String randomStringOfLetters(int n) {
+       String random= "";
+       for (int i=0 ; i<n ; i++){
+           char ch=(char)(97+(int)(Math.random()*26));
+           random+=ch;
+       }
+       return random;
+   }
+
+   /**
+    * Returns a string consisting of the string str1, minus all the characters in the
+    * string str2. Assumes (without checking) that str2 is a subset of str1.
+    * Example: remove("meet","committee") returns "comit" 
+    * 
+    * @param str1 - a string
+    * @param str2 - a string
+    * @return a string consisting of str1 minus all the characters of str2
+    */
+   public static String remove(String str1, String str2) {
+      String updated="";
+      for (int i=0 ; i < str1.length() ; i++){
+       char ch= str1.charAt(i);
+
+       boolean found=false;
+
+       for (int j=0; j < str2.length(); j++){
+           if (ch== str2.charAt(j)){
+               found= true;
+               break;
+           }
+       }
+       if (!found) {
+           updated+=ch;
+       } 
+      }
+       return updated;
+   }
+
+   /**
+    * Returns a string consisting of the given string, with the given 
+    * character inserted randomly somewhere in the string.
+    * For example, insertRandomly("s","cat") can return "scat", or "csat", or "cast", or "cats".  
+    * @param ch - a character
+    * @param str - a string
+    * @return a string consisting of str with ch inserted somewhere
+    */
+   public static String insertRandomly(char ch, String str) {
+        // Generate a random index between 0 and str.length()
+        int randomIndex = (int) (Math.random() * (str.length() + 1));
+        // Insert the character at the random index
+        String result = str.substring(0, randomIndex) + ch + str.substring(randomIndex);
+        return result;
+   }    
+}
