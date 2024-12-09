@@ -123,7 +123,7 @@ public class MyString {
        boolean found=false;
 
        for (int j=0; j < str2.length(); j++){
-           if (ch== str2.charAt(j)){
+           if (ch== str2.charAt(j) && !removed[j]){
                found= true;
                removed[j]=true;
                break;
