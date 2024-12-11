@@ -149,10 +149,9 @@ public class Scrabble {
 				String hand= createHand();
 				playHand(hand);
 			} else if (input.equals("e")){
-				System.out.println( "Thank you for playing Scrabble!");
 				break;
 			} else {
-				System.out.println("Invalid input. Please enter 'n' or 'e'");
+				System.out.println("Invalid input. Please enter 'n' to deal a new hand or 'e' to end the game.\"Please enter 'n' or 'e'");
 			//// Replace the following break statement with code
 			//// that completes the game playing loop
 			}
