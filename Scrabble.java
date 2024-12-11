@@ -78,7 +78,6 @@ public class Scrabble {
 		score *= word.length();
 		if (word.contains("runi")){
 			score+=1000;
-		
 		} 
 		if (word.length()==HAND_SIZE){
 			score+=50;
@@ -120,15 +119,14 @@ public class Scrabble {
 			}
 			if (!isWordInDictionary(input)){
 				System.out.println("Invalid word. Try again.");
-				continue;
+			} else { 
+				int wordScore = wordScore(input);
+				score += wordScore;
+				System.out.println(input + " earned " + wordScore + " points. Score: " + score+ " points." );
+				System.out.println();
+				hand=MyString.remove(hand,input);
 			}
-			int wordScore = wordScore(input);
-			score += wordScore;
-			System.out.println(input + " earned " + wordScore + " points. Total: " + score+ " points." );
-
-			hand=MyString.remove(hand,input);
 		}
-
 		if (hand.length() == 0) {
 	        System.out.println("Ran out of letters. Total score: " + score + " points");
 		} else {
@@ -184,10 +182,10 @@ public class Scrabble {
 	}
 	
 	public static void testScrabbleScore() {
-		System.out.println(wordScore("bee"));	
-		System.out.println(wordScore("babe"));
-		System.out.println(wordScore("friendship"));
-		System.out.println(wordScore("running"));
+		//System.out.println(wordScore("bee"));	
+		//System.out.println(wordScore("babe"));
+		//System.out.println(wordScore("friendship"));
+		//System.out.println(wordScore("running"));
 	}
 	
 	public static void testCreateHands() {
