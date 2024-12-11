@@ -50,22 +50,14 @@ public class Scrabble {
 	public static boolean isWordInDictionary(String word) {
 		if (word == null || word.isEmpty()) {
 			return false;
-		}
-		word=word.toLowerCase();
-		if (!word.matches("[a-z]+")) {
-			return false;
-		}
-		for (int i=0; i< word.length();i++){
-			char ch = word.charAt(i);
-			if (ch<'a'||ch>'z'){
+		} else { word=word.toLowerCase();
+			if (!word.matches("[a-z]+")) {
 				return false;
 			}
-
-		}
-		
-		for (int i = 0; i < NUM_OF_WORDS; i++) {
-			if (DICTIONARY[i].equals(word)) {
-				return true; 
+			for (int i=0; i< NUM_OF_WORDS;i++){
+				if (word.equals(DICTIONARY[i])){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -82,7 +74,8 @@ public class Scrabble {
 			char ch= word.charAt(i);
 			int index= ch - 'a';
 			score += SCRABBLE_LETTER_VALUES[index] ;
-		}
+		} 
+		score *= word.length();
 		if (word.contains("runi")){
 			score+=1000;
 		
@@ -90,9 +83,8 @@ public class Scrabble {
 		if (word.length()==HAND_SIZE){
 			score+=50;
 		}
-		score *= word.length();
-		
 		return score;
+		
 	}
 
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
@@ -153,7 +145,7 @@ public class Scrabble {
 		// coming from the keyboard. Used for getting the user's inputs.  
 		In in = new In();
 
-		while(true) {
+		while (true) {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
 			// Gets the user's input, which is all the characters entered by 
 			// the user until the user enter the ENTER character.
