@@ -48,8 +48,13 @@ public class Scrabble {
 
 	// Checks if the given word is in the dictionary.
 	public static boolean isWordInDictionary(String word) {
+		if (word == null || word.isEmpty()) {
+			return false;
+		}
 		word=word.toLowerCase();
-
+		if (!word.matches("[a-z]+")) {
+			return false;
+		}
 		for (int i=0; i< word.length();i++){
 			char ch = word.charAt(i);
 			if (ch<'a'||ch>'z'){
@@ -78,8 +83,6 @@ public class Scrabble {
 			int index= ch - 'a';
 			score += SCRABBLE_LETTER_VALUES[index] ;
 		}
-		score *= word.length();
-
 		if (word.contains("runi")){
 			score+=1000;
 		
@@ -87,6 +90,7 @@ public class Scrabble {
 		if (word.length()==HAND_SIZE){
 			score+=50;
 		}
+		score *= word.length();
 		
 		return score;
 	}
@@ -154,10 +158,9 @@ public class Scrabble {
 			// Gets the user's input, which is all the characters entered by 
 			// the user until the user enter the ENTER character.
 			String input = in.readString();
-			String hand= createHand();
 
 			if (input.equals("n")){
-				hand= createHand();
+				String hand= createHand();
 				playHand(hand);
 			} else if (input.equals("e")){
 				System.out.println( "Thank you for playing Scrabble!");
