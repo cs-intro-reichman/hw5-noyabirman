@@ -49,6 +49,15 @@ public class Scrabble {
 	// Checks if the given word is in the dictionary.
 	public static boolean isWordInDictionary(String word) {
 		word=word.toLowerCase();
+
+		for (int i=0; i< word.length();i++){
+			char ch = word.charAt(i);
+			if (ch<'a'||ch>'z'){
+				return false;
+			}
+
+		}
+		
 		for (int i = 0; i < NUM_OF_WORDS; i++) {
 			if (DICTIONARY[i].equals(word)) {
 				return true; 
@@ -62,20 +71,23 @@ public class Scrabble {
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
 		int score=0;
+		
 		word=word.toLowerCase();
 		for (int i=0; i<word.length() ; i++){
 			char ch= word.charAt(i);
-			int index=(int)(ch)%97;
-			score+=SCRABBLE_LETTER_VALUES[index] ;
-		}	
+			int index= ch - 'a';
+			score += SCRABBLE_LETTER_VALUES[index] ;
+		}
 		score *= word.length();
+
 		if (word.contains("runi")){
 			score+=1000;
-		}
-		if (word.length()==Scrabble.HAND_SIZE){
-			score+=50;
 		
+		} 
+		if (word.length()==HAND_SIZE){
+			score+=50;
 		}
+		
 		return score;
 	}
 
@@ -148,7 +160,7 @@ public class Scrabble {
 				hand= createHand();
 				playHand(hand);
 			} else if (input.equals("e")){
-				System.out.println( "thank you for playing Scrabbble!");
+				System.out.println( "Thank you for playing Scrabble!");
 				break;
 			} else {
 				System.out.println("Invalid input. Please enter 'n' or 'e'");
