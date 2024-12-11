@@ -48,7 +48,14 @@ public class Scrabble {
 
 	// Checks if the given word is in the dictionary.
 	public static boolean isWordInDictionary(String word) {
-		//// Replace the following statement with your code
+		if (!word.matches("[a-z]+")) {
+			return false;
+		}
+		for (int i=0 ; i< NUM_OF_WORDS ; i++){
+			if (DICTIONARY[i].equals(word)){
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -56,16 +63,33 @@ public class Scrabble {
 	// If the length of the word equals the length of the hand, adds 50 points to the score.
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
-		//// Replace the following statement with your code
-		return 0;
+		int score=0;
+		
+		word=word.toLowerCase();
+		for (int i=0; i<word.length() ; i++){
+			char ch= word.charAt(i);
+			int index= ch - 'a';
+			score += SCRABBLE_LETTER_VALUES[index] ;
+		} 
+		score *= word.length();
+		if (MyString.subsetOf("runi",word)){
+			score+=1000;
+		} 
+		if (word.length()==HAND_SIZE){
+			score+=50;
+		}
+		return score;
+		
 	}
 
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
 	// into it, at random indexes, the letters 'a' and 'e'
 	// (these two vowels make it easier for the user to construct words)
 	public static String createHand() {
-		//// Replace the following statement with your code
-		return null;
+		String hand= MyString.randomStringOfLetters((Scrabble.HAND_SIZE-2));
+		hand=MyString.insertRandomly('a',hand);
+		hand=MyString.insertRandomly('e',hand);
+		return hand;
 	}
 	
     // Runs a single hand in a Scrabble game. Each time the user enters a valid word:
@@ -73,7 +97,6 @@ public class Scrabble {
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
 	public static void playHand(String hand) {
-		int n = hand.length();
 		int score = 0;
 		// Declares the variable in to refer to an object of type In, and initializes it to represent
 		// the stream of characters coming from the keyboard. Used for reading the user's inputs.   
@@ -87,7 +110,18 @@ public class Scrabble {
 			String input = in.readString();
 			//// Replace the following break statement with code
 			//// that completes the hand playing loop
-			break;
+			if(input.equals(".")){
+				break;
+			}
+			if (!isWordInDictionary(input)){
+				System.out.println("Invalid word. Try again.");
+			} else { 
+				int wordScore = wordScore(input);
+				score += wordScore;
+				System.out.println(input + " earned " + wordScore + " points. Score: " + score+ " points." );
+				System.out.println();
+				hand=MyString.remove(hand,input);
+			}
 		}
 		if (hand.length() == 0) {
 	        System.out.println("Ran out of letters. Total score: " + score + " points");
@@ -105,24 +139,32 @@ public class Scrabble {
 		// coming from the keyboard. Used for getting the user's inputs.  
 		In in = new In();
 
-		while(true) {
+		while (true) {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
 			// Gets the user's input, which is all the characters entered by 
 			// the user until the user enter the ENTER character.
 			String input = in.readString();
+
+			if (input.equals("n")){
+				String hand= createHand();
+				playHand(hand);
+			} else if (input.equals("e")){
+				break;
+			} else {
+				System.out.println("Invalid input. Please enter 'n' to deal a new hand or 'e' to end the game.\"Please enter 'n' or 'e'");
 			//// Replace the following break statement with code
 			//// that completes the game playing loop
-			break;
+			}
 		}
 	}
 
 	public static void main(String[] args) {
-		//// Uncomment the test you want to run
-		////testBuildingTheDictionary();  
-		////testScrabbleScore();    
-		////testCreateHands();  
-		////testPlayHands();
-		////playGame();
+		/// Uncomment the test you want to run
+		testBuildingTheDictionary();  
+		testScrabbleScore();    
+		testCreateHands();  
+		testPlayHands();
+		playGame();
 	}
 
 	public static void testBuildingTheDictionary() {
@@ -135,10 +177,10 @@ public class Scrabble {
 	}
 	
 	public static void testScrabbleScore() {
-		System.out.println(wordScore("bee"));	
-		System.out.println(wordScore("babe"));
-		System.out.println(wordScore("friendship"));
-		System.out.println(wordScore("running"));
+		//System.out.println(wordScore("bee"));	
+		//System.out.println(wordScore("babe"));
+		//System.out.println(wordScore("friendship"));
+		//System.out.println(wordScore("running"));
 	}
 	
 	public static void testCreateHands() {
