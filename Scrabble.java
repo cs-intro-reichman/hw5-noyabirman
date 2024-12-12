@@ -98,7 +98,7 @@ public class Scrabble {
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
 	public static void playHand(String hand) {
 		int score = 0;
-		// Declares the variable in to refer to an object of type In, and initializes it to represent
+		// Declares the variable in to refer to a	n object of type In, and initializes it to represent
 		// the stream of characters coming from the keyboard. Used for reading the user's inputs.   
 		In in = new In();
 		while (hand.length() > 0) {
@@ -110,21 +110,25 @@ public class Scrabble {
 			String input = in.readString();
 			//// Replace the following break statement with code
 			//// that completes the hand playing loop
-			if(input.equals(".")){
+			if (input.equals(".")){
 				break;
 			}
-			if (!isWordInDictionary(input)){
-				System.out.println("Invalid word. Try again.");
-			} else { 
-				int wordScore = wordScore(input);
-				score += wordScore;
-				System.out.println(input + " earned " + wordScore + " points. Score: " + score+ " points." );
-				System.out.println();
-				hand=MyString.remove(hand,input);
+			if(!input.equals(".")){
+				if ((isWordInDictionary(input)) && (MyString.subsetOf(input,hand))){
+					int wordScore = wordScore(input);
+					score += wordScore;
+					System.out.println(input + " earned " + wordScore + " points. Score: " + score+ " points." );
+					System.out.println("");
+					hand=MyString.remove(hand,input);
+				} else if (!MyString.subsetOf(input,hand)){
+					System.out.println("Invalid word. Try again.");
+				} else if (!isWordInDictionary(input)){
+					System.out.println("No such word in the dictionary. Try again.");
+				}
 			}
 		}
 		if (hand.length() == 0) {
-	        System.out.println("Ran out of letters. Total score: " + score + " points");
+			System.out.println("Ran out of letters. Total score: " + score + " points");
 		} else {
 			System.out.println("End of hand. Total score: " + score + " points");
 		}
